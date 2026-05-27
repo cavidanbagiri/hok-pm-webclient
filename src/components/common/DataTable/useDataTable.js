@@ -19,7 +19,7 @@ export const useDataTable = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('area');
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'asc' });
   const [filters, setFilters] = useState({});
   const [contextMenu, setContextMenu] = useState(null);
@@ -242,6 +242,7 @@ const handleUpdateSubmit = async (formData) => {
     // State
     activeTab, currentPage, filters, sortConfig, contextMenu,
     showEditModal, editingItem, showMessage, localMessage,
+    itemsPerPage, 
     // Data
     tabs, currentTab, displayColumns, processedData,
     filteredData, sortedData, currentItems, totalPages,
@@ -251,6 +252,6 @@ const handleUpdateSubmit = async (formData) => {
     setContextMenu, setShowEditModal, setEditingItem,
     setShowMessage, setLocalMessage, handleSort, handleFilterChange,
     clearFilter, handleContextMenu, handleEdit, handleUpdateSubmit,
-    refreshData, getSortIcon, getColumnOptions
+    refreshData, getSortIcon, getColumnOptions, setItemsPerPage
   };
 };

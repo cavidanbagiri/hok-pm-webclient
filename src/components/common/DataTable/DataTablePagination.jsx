@@ -1,18 +1,26 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const DataTablePagination = ({ 
-  sortedData, 
-  currentPage, 
-  totalPages, 
-  indexOfFirstItem, 
-  indexOfLastItem, 
-  onPageChange 
+const DataTablePagination = ({
+  sortedData,
+  currentPage,
+  totalPages,
+  indexOfFirstItem,
+  indexOfLastItem,
+  onPageChange,
+  itemsPerPage
 }) => {
   if (sortedData.length === 0) return null;
 
   return (
-    <div className="px-6 py-4 border-gray-200 bg-gray-50 flex items-center justify-between">
+    <div className="px-2 py-1 border-gray-200 bg-gray-50 flex items-center justify-between">
+      <div className="text-xs text-gray-500">
+        {/* Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedData.length)} of {sortedData.length} entries */}
+        <div className="text-xs text-gray-500">
+          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedData.length)} of {sortedData.length} entries
+          <span className="ml-2 text-gray-400">(Page size: {itemsPerPage})</span>
+        </div>
+      </div>
       <div className="flex items-center gap-2">
         <button
           onClick={() => onPageChange(prev => Math.max(prev - 1, 1))}
@@ -21,10 +29,10 @@ const DataTablePagination = ({
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+        <div className="flex items-center gap-1 text-sm">
+          {Array.from({ length: Math.min(10, totalPages) }, (_, i) => {
             let pageNum;
-            if (totalPages <= 5) {
+            if (totalPages <= 10) {
               pageNum = i + 1;
             } else if (currentPage <= 3) {
               pageNum = i + 1;
@@ -37,11 +45,10 @@ const DataTablePagination = ({
               <button
                 key={pageNum}
                 onClick={() => onPageChange(pageNum)}
-                className={`px-3 py-1 rounded-lg transition-colors ${
-                  currentPage === pageNum
+                className={`px-3 py-1 rounded-lg transition-colors ${currentPage === pageNum
                     ? 'bg-blue-500 text-white'
                     : 'text-gray-600 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 {pageNum}
               </button>
@@ -56,9 +63,7 @@ const DataTablePagination = ({
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
-      <div className="text-sm text-gray-500">
-        Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedData.length)} of {sortedData.length} entries
-      </div>
+
     </div>
   );
 };

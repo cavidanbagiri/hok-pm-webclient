@@ -1,4 +1,3 @@
 Problems:
 1) After selecting values from filter, the ExcelFilter component doesnt show correctly
-2) Edit function doesnt work. Need to add update functions for all 9 types.
-3) Need to fix the ExcelFilter for growing as user wants.
+2) Need to fix the ExcelFilter for growing as user wants.

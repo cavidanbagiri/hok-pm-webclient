@@ -22,7 +22,7 @@ const DataTable = () => {
     editingItem,
     showMessage,
     localMessage,
-    
+    itemsPerPage,
     // Data
     tabs,
     currentTab,
@@ -54,15 +54,32 @@ const DataTable = () => {
     handleUpdateSubmit,
     refreshData,
     getSortIcon,
-    getColumnOptions
+    getColumnOptions,
+    setItemsPerPage
   } = useDataTable();
 
   const isLoading = loading[`fetch${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`];
 
   return (
     <div className="w-full bg-white rounded-2xl shadow-xl overflow-hidden">
-      <DataTableHeader onRefresh={refreshData} />
+      {/* <DataTableHeader onRefresh={refreshData} /> */}
+
+       <DataTablePagination
+        sortedData={sortedData}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        indexOfFirstItem={indexOfFirstItem}
+        indexOfLastItem={indexOfLastItem}
+        onPageChange={setCurrentPage}
+        itemsPerPage={itemsPerPage}
+      />
       
+      <DataTableHeader 
+          onRefresh={refreshData} 
+          pageSize={itemsPerPage}
+          onPageSizeChange={setItemsPerPage}
+      />
+
       <DataTableTabs
         tabs={tabs}
         activeTab={activeTab}
@@ -145,15 +162,19 @@ const DataTable = () => {
           )}
         </table>
       </div>
-      
-      <DataTablePagination
+
+
+       <DataTablePagination
         sortedData={sortedData}
         currentPage={currentPage}
         totalPages={totalPages}
         indexOfFirstItem={indexOfFirstItem}
         indexOfLastItem={indexOfLastItem}
         onPageChange={setCurrentPage}
+        itemsPerPage={itemsPerPage}
       />
+      
+     
       
       {contextMenu && (
         <ContextMenu
