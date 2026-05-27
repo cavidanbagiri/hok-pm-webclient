@@ -26,6 +26,19 @@ export const createArea = createAsyncThunk(
     }
 );
 
+export const updateArea = createAsyncThunk(
+    'common/updateArea',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateArea(id, data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
+
 // Async thunks for Location
 export const fetchLocation = createAsyncThunk(
     'common/fetchLocation',
@@ -44,6 +57,18 @@ export const createLocation = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const response = await CommonService.createLocation(data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
+export const updateLocation = createAsyncThunk(
+    'common/updateLocation',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateLocation(id, data);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -76,6 +101,18 @@ export const createUom = createAsyncThunk(
     }
 );
 
+export const updateUom = createAsyncThunk(
+    'common/updateUom',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateUom(id, data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // Async thunks for Size1
 export const fetchSize1 = createAsyncThunk(
     'common/fetchSize1',
@@ -94,6 +131,18 @@ export const createSize1 = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const response = await CommonService.createSize1(data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
+export const updateSize1 = createAsyncThunk(
+    'common/updateSize1',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateSize1(id, data);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -126,6 +175,18 @@ export const createSize2 = createAsyncThunk(
     }
 );
 
+export const updateSize2 = createAsyncThunk(
+    'common/updateSize2',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateSize2(id, data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // Async thunks for Material
 export const fetchMaterial = createAsyncThunk(
     'common/fetchMaterial',
@@ -151,12 +212,36 @@ export const createMaterial = createAsyncThunk(
     }
 );
 
+export const updateMaterial = createAsyncThunk(
+    'common/updateMaterial',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateMaterial(id, data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // Async thunks for Description
 export const fetchDescription = createAsyncThunk(
     'common/fetchDescription',
     async (params = {}, { rejectWithValue }) => {
         try {
             const response = await CommonService.fetchDescription(params);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
+export const updateDescription = createAsyncThunk(
+    'common/updateDescription',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateDescription(id, data);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -201,6 +286,18 @@ export const createSubtype = createAsyncThunk(
     }
 );
 
+export const updateSubtype = createAsyncThunk(
+    'common/updateSubtype',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateSubtype(id, data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // Async thunks for Item Types
 export const fetchItemTypes = createAsyncThunk(
     'common/fetchItemTypes',
@@ -219,6 +316,18 @@ export const createItemTypes = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const response = await CommonService.createItemTypes(data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
+export const updateItemTypes = createAsyncThunk(
+    'common/updateItemTypes',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await CommonService.updateItemTypes(id, data);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -290,7 +399,7 @@ const initialState = {
     itemTypes: [],
     types: [],
     stockData: [],
-    
+
     // Loading states
     loading: {
         fetchArea: false,
@@ -315,11 +424,20 @@ const initialState = {
         createType: false,
         fetchStockData: false,
         createStock: false,
-    },
-    
+        updateArea: false,
+        updateLocation: false,
+        updateUom: false,
+        updateSize1: false,
+        updateSize2: false,
+        updateMaterial: false,
+        updateDescription: false,
+        updateSubtype: false,
+        updateItemTypes: false,
+        },
+
     // Error states
     errors: {},
-    
+
     // Message states for MessageBox
     message: null,
     messageCond: null,
@@ -384,6 +502,26 @@ const commonSlice = createSlice({
                 state.message = `Failed to create area: ${action.payload?.detail}`;
                 state.messageCond = 'error';
             })
+            .addCase(updateArea.pending, (state) => {
+                state.loading.updateArea = true;
+                state.errors.updateArea = null;
+            })
+            .addCase(updateArea.fulfilled, (state, action) => {
+                state.loading.updateArea = false;
+                // Update the item in the array
+                const index = state.areas.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.areas[index] = action.payload;
+                }
+                state.message = 'Area updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateArea.rejected, (state, action) => {
+                state.loading.updateArea = false;
+                state.errors.updateArea = action.payload;
+                state.message = `Failed to update area: ${action.payload?.detail || action.payload}`;
+                state.messageCond = 'error';
+            })
 
             // ========== Location Reducers ==========
             .addCase(fetchLocation.pending, (state) => {
@@ -414,6 +552,26 @@ const commonSlice = createSlice({
                 state.loading.createLocation = false;
                 state.errors.createLocation = action.payload;
                 state.message = `Failed to create location: ${action.payload?.detail}`;
+                state.messageCond = 'error';
+            })
+            .addCase(updateLocation.pending, (state) => {
+                state.loading.updateLocation = true;
+                state.errors.updateLocation = null;
+            })
+            .addCase(updateLocation.fulfilled, (state, action) => {
+                state.loading.updateLocation = false;
+                // Update the item in the array
+                const index = state.locations.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.locations[index] = action.payload;
+                }
+                state.message = 'Location updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateLocation.rejected, (state, action) => {
+                state.loading.updateLocation = false;
+                state.errors.updateLocation = action.payload;
+                state.message = `Failed to update location: ${action.payload?.detail || action.payload}`;
                 state.messageCond = 'error';
             })
 
@@ -448,6 +606,26 @@ const commonSlice = createSlice({
                 state.message = `Failed to create UOM: ${action.payload?.detail}`;
                 state.messageCond = 'error';
             })
+            .addCase(updateUom.pending, (state) => {
+                state.loading.updateUom = true;
+                state.errors.updateUom = null;
+            })
+            .addCase(updateUom.fulfilled, (state, action) => {
+                state.loading.updateUom = false;
+                // Update the item in the array
+                const index = state.uoms.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.uoms[index] = action.payload;
+                }
+                state.message = 'Uom updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateUom.rejected, (state, action) => {
+                state.loading.updateUom = false;
+                state.errors.updateUom = action.payload;
+                state.message = `Failed to update uom: ${action.payload?.detail || action.payload}`;
+                state.messageCond = 'error';
+            })
 
             // ========== Size1 Reducers ==========
             .addCase(fetchSize1.pending, (state) => {
@@ -478,6 +656,26 @@ const commonSlice = createSlice({
                 state.loading.createSize1 = false;
                 state.errors.createSize1 = action.payload;
                 state.message = `Failed to create size1: ${action.payload?.detail}`;
+                state.messageCond = 'error';
+            })
+            .addCase(updateSize1.pending, (state) => {
+                state.loading.updateSize1 = true;
+                state.errors.updateSize1 = null;
+            })
+            .addCase(updateSize1.fulfilled, (state, action) => {
+                state.loading.updateSize1 = false;
+                // Update the item in the array
+                const index = state.size1.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.size1[index] = action.payload;
+                }
+                state.message = 'Size1 updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateSize1.rejected, (state, action) => {
+                state.loading.updateSize1 = false;
+                state.errors.updateSize1 = action.payload;
+                state.message = `Failed to size1: ${action.payload?.detail || action.payload}`;
                 state.messageCond = 'error';
             })
 
@@ -512,6 +710,26 @@ const commonSlice = createSlice({
                 state.message = `Failed to create size2: ${action.payload?.detail}`;
                 state.messageCond = 'error';
             })
+            .addCase(updateSize2.pending, (state) => {
+                state.loading.updateSize2 = true;
+                state.errors.updateSize2 = null;
+            })
+            .addCase(updateSize2.fulfilled, (state, action) => {
+                state.loading.updateSize2 = false;
+                // Update the item in the array
+                const index = state.size2.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.size2[index] = action.payload;
+                }
+                state.message = 'Size2 updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateSize2.rejected, (state, action) => {
+                state.loading.updateSize2 = false;
+                state.errors.updateSize2 = action.payload;
+                state.message = `Failed to size2 uom: ${action.payload?.detail || action.payload}`;
+                state.messageCond = 'error';
+            })
 
             // ========== Material Reducers ==========
             .addCase(fetchMaterial.pending, (state) => {
@@ -542,6 +760,26 @@ const commonSlice = createSlice({
                 state.loading.createMaterial = false;
                 state.errors.createMaterial = action.payload;
                 state.message = `Failed to create material: ${action.payload?.detail}`;
+                state.messageCond = 'error';
+            })
+            .addCase(updateMaterial.pending, (state) => {
+                state.loading.updateMaterial = true;
+                state.errors.updateMaterial = null;
+            })
+            .addCase(updateMaterial.fulfilled, (state, action) => {
+                state.loading.updateMaterial = false;
+                // Update the item in the array
+                const index = state.materials.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.materials[index] = action.payload;
+                }
+                state.message = 'Material updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateMaterial.rejected, (state, action) => {
+                state.loading.updateMaterial = false;
+                state.errors.updateMaterial = action.payload;
+                state.message = `Failed to materials uom: ${action.payload?.detail || action.payload}`;
                 state.messageCond = 'error';
             })
 
@@ -576,6 +814,26 @@ const commonSlice = createSlice({
                 state.message = `Failed to create description: ${action.payload?.detail}`;
                 state.messageCond = 'error';
             })
+            .addCase(updateDescription.pending, (state) => {
+                state.loading.updateDescription = true;
+                state.errors.updateDescription = null;
+            })
+            .addCase(updateDescription.fulfilled, (state, action) => {
+                state.loading.updateDescription = false;
+                // Update the item in the array
+                const index = state.descriptions.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.descriptions[index] = action.payload;
+                }
+                state.message = 'Description updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateDescription.rejected, (state, action) => {
+                state.loading.updateDescription = false;
+                state.errors.updateDescription = action.payload;
+                state.message = `Failed to descriptions uom: ${action.payload?.detail || action.payload}`;
+                state.messageCond = 'error';
+            })
 
             // ========== Subtype Reducers ==========
             .addCase(fetchSubtype.pending, (state) => {
@@ -608,6 +866,26 @@ const commonSlice = createSlice({
                 state.message = `Failed to create subtype: ${action.payload?.detail}`;
                 state.messageCond = 'error';
             })
+            .addCase(updateSubtype.pending, (state) => {
+                state.loading.updateSubtype = true;
+                state.errors.updateSubtype = null;
+            })
+            .addCase(updateSubtype.fulfilled, (state, action) => {
+                state.loading.updateSubtype = false;
+                // Update the item in the array
+                const index = state.subtypes.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.subtypes[index] = action.payload;
+                }
+                state.message = 'Subtype updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateSubtype.rejected, (state, action) => {
+                state.loading.updateSubtype = false;
+                state.errors.updateSubtype = action.payload;
+                state.message = `Failed to subtype uom: ${action.payload?.detail || action.payload}`;
+                state.messageCond = 'error';
+            })
 
             // ========== Item Types Reducers ==========
             .addCase(fetchItemTypes.pending, (state) => {
@@ -638,6 +916,26 @@ const commonSlice = createSlice({
                 state.loading.createItemTypes = false;
                 state.errors.createItemTypes = action.payload;
                 state.message = `Failed to create item type: ${action.payload?.detail}`;
+                state.messageCond = 'error';
+            })
+            .addCase(updateItemTypes.pending, (state) => {
+                state.loading.updateItemTypes = true;
+                state.errors.updateItemTypes = null;
+            })
+            .addCase(updateItemTypes.fulfilled, (state, action) => {
+                state.loading.updateItemTypes = false;
+                // Update the item in the array
+                const index = state.itemTypes.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.itemTypes[index] = action.payload;
+                }
+                state.message = 'Item type updated successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(updateItemTypes.rejected, (state, action) => {
+                state.loading.updateItemTypes = false;
+                state.errors.updateItemTypes = action.payload;
+                state.message = `Failed to Item type uom: ${action.payload?.detail || action.payload}`;
                 state.messageCond = 'error';
             })
 
@@ -723,9 +1021,9 @@ export const selectItemTypes = (state) => state.common.itemTypes;
 export const selectTypes = (state) => state.common.types;
 export const selectStockData = (state) => state.common.stockData;
 export const selectLoading = (state) => state.common.loading;
-export const selectMessage = (state) => ({ 
-    message: state.common.message, 
-    cond: state.common.messageCond 
+export const selectMessage = (state) => ({
+    message: state.common.message,
+    cond: state.common.messageCond
 });
 
 // Export reducer

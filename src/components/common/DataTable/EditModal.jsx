@@ -13,7 +13,18 @@ const EditModal = ({ isOpen, onClose, item, tab, onSubmit }) => {
     }
   }, [item]);
 
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     await onSubmit(formData);
+  //     onClose();
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {

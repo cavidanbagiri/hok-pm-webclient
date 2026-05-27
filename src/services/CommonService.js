@@ -24,16 +24,30 @@ class CommonService {
         }
     }
 
+    async put(url, data = {}) {
+        try {
+            const response = await $api.put(url, data);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+    
     // =========================
     // AREA
     // =========================
     fetchArea(params = {}) {
         return this.get('/common/fetch_area', params);
     }
-
+    
     createArea(data) {
         return this.post('/common/create_area', data);
     }
+    
+    async updateArea(id, data) {
+        return this.put(`/common/update_area/${id}`, data);
+    }
+
 
     // =========================
     // LOCATION
@@ -44,6 +58,10 @@ class CommonService {
 
     createLocation(data) {
         return this.post('/common/create_location', data);
+    }
+
+    async updateLocation(id, data) {
+        return this.put(`/common/update_location/${id}`, data);
     }
 
     // =========================
@@ -57,6 +75,10 @@ class CommonService {
         return this.post('/common/create_uom', data);
     }
 
+    async updateUom(id, data) {
+        return this.put(`/common/update_uom/${id}`, data);
+    }
+
     // =========================
     // SIZE 1
     // =========================
@@ -66,6 +88,10 @@ class CommonService {
 
     createSize1(data) {
         return this.post('/common/create_size1', data);
+    }
+
+    async updateSize1(id, data) {
+        return this.put(`/common/update_size1/${id}`, data);
     }
 
     // =========================
@@ -79,6 +105,10 @@ class CommonService {
         return this.post('/common/create_size2', data);
     }
 
+    async updateSize2(id, data) {
+        return this.put(`/common/update_size2/${id}`, data);
+    }
+
     // =========================
     // MATERIAL
     // =========================
@@ -88,6 +118,10 @@ class CommonService {
 
     createMaterial(data) {
         return this.post('/common/create_material', data);
+    }
+
+    async updateMaterial(id, data) {
+        return this.put(`/common/update_material/${id}`, data);
     }
 
     // =========================
@@ -101,6 +135,10 @@ class CommonService {
         return this.post('/common/create_description', data);
     }
 
+    async updateDescription(id, data) {
+        return this.put(`/common/update_description/${id}`, data);
+    }
+
     // =========================
     // SUBTYPE
     // =========================
@@ -112,6 +150,10 @@ class CommonService {
         return this.post('/common/create_subtype', data);
     }
 
+    async updateSubtype(id, data) {
+        return this.put(`/common/update_subtype/${id}`, data);
+    }
+
     // =========================
     // ITEM TYPES
     // =========================
@@ -121,6 +163,10 @@ class CommonService {
 
     createItemTypes(data) {
         return this.post('/common/create_item_types', data);
+    }
+
+    async updateItemTypes(id, data) {
+        return this.put(`/common/update_item_types/${id}`, data);
     }
 
     // =========================

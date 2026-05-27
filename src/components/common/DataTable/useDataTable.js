@@ -10,7 +10,8 @@ import {
   createMaterial, createDescription, createSubtype, createItemTypes,
   selectAreas, selectLocations, selectUoms, selectSize1, selectSize2,
   selectMaterials, selectDescriptions, selectSubtypes, selectItemTypes,
-  selectLoading
+  selectLoading,updateArea, updateLocation, updateUom, updateSize1,
+  updateSize2, updateMaterial, updateDescription, updateSubtype, updateItemTypes
 } from '../../../stores/common_slice';
 import { useProjects } from '../../../hooks/useProjects';
 
@@ -195,16 +196,38 @@ export const useDataTable = () => {
     setShowEditModal(true);
   };
 
-  const handleUpdateSubmit = async (formData) => {
+const handleUpdateSubmit = async (formData) => {
     try {
-      await dispatch(currentTab.createAction(formData)).unwrap();
-      await dispatch(currentTab.fetchAction());
-      setShowEditModal(false);
-      setEditingItem(null);
+        const updateActionMap = {
+            area: updateArea,
+            location: updateLocation,
+            uom: updateUom,
+            size1: updateSize1,
+            size2: updateSize2,
+            material: updateMaterial,
+            description: updateDescription,
+            subtype: updateSubtype,
+            item_types: updateItemTypes
+        };
+        
+        const updateAction = updateActionMap[activeTab];
+        
+        if (updateAction) {
+            await dispatch(updateAction({ 
+                id: editingItem.id, 
+                data: formData 
+            })).unwrap();
+            
+            // Refresh the data after successful update
+            await dispatch(currentTab.fetchAction());
+            
+            setShowEditModal(false);
+            setEditingItem(null);
+        }
     } catch (error) {
-      console.error('Update failed:', error);
+        console.error('Update failed:', error);
     }
-  };
+};
 
   const refreshData = () => {
     dispatch(currentTab?.fetchAction());
