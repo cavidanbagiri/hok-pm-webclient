@@ -4,9 +4,9 @@ import CommonService from '../services/CommonService';
 // Async thunks for Area
 export const fetchArea = createAsyncThunk(
     'common/fetchArea',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchArea();
+            const response = await CommonService.fetchArea(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -29,9 +29,9 @@ export const createArea = createAsyncThunk(
 // Async thunks for Location
 export const fetchLocation = createAsyncThunk(
     'common/fetchLocation',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchLocation();
+            const response = await CommonService.fetchLocation(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -54,9 +54,9 @@ export const createLocation = createAsyncThunk(
 // Async thunks for UOM
 export const fetchUom = createAsyncThunk(
     'common/fetchUom',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchUom();
+            const response = await CommonService.fetchUom(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -79,9 +79,9 @@ export const createUom = createAsyncThunk(
 // Async thunks for Size1
 export const fetchSize1 = createAsyncThunk(
     'common/fetchSize1',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchSize1();
+            const response = await CommonService.fetchSize1(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -104,9 +104,9 @@ export const createSize1 = createAsyncThunk(
 // Async thunks for Size2
 export const fetchSize2 = createAsyncThunk(
     'common/fetchSize2',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchSize2();
+            const response = await CommonService.fetchSize2(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -129,9 +129,9 @@ export const createSize2 = createAsyncThunk(
 // Async thunks for Material
 export const fetchMaterial = createAsyncThunk(
     'common/fetchMaterial',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchMaterial();
+            const response = await CommonService.fetchMaterial(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -154,9 +154,9 @@ export const createMaterial = createAsyncThunk(
 // Async thunks for Description
 export const fetchDescription = createAsyncThunk(
     'common/fetchDescription',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchDescription();
+            const response = await CommonService.fetchDescription(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -179,9 +179,9 @@ export const createDescription = createAsyncThunk(
 // Async thunks for Subtype
 export const fetchSubtype = createAsyncThunk(
     'common/fetchSubtype',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchSubtype();
+            const response = await CommonService.fetchSubtype(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -204,9 +204,9 @@ export const createSubtype = createAsyncThunk(
 // Async thunks for Item Types
 export const fetchItemTypes = createAsyncThunk(
     'common/fetchItemTypes',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await CommonService.fetchItemTypes();
+            const response = await CommonService.fetchItemTypes(params);
             return response;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);

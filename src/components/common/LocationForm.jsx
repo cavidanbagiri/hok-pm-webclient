@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import ProjectSelector from '../common/ProjectSelector';
+import ProjectSelector from './ProjectSelector';
 
 const LocationForm = ({ formData, setFormData, projects, userRole, userProjectId }) => {
   useEffect(() => {

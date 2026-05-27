@@ -10,9 +10,12 @@ import {
 } from '../stores/common_slice';
 import { useProjects } from '../hooks/useProjects';
 import FormModal from '../components/common/FormModal';
-import AreaForm from '../components/forms/AreaForm';
-import LocationForm from '../components/forms/LocationForm';
+import AreaForm from '../components/common/AreaForm';
+import LocationForm from '../components/common/LocationForm';
 import MessageBox from '../layouts/MessageBox';
+
+// import DataTable from '../components/common/DataTable';
+import DataTable from '../components/common/DataTable/index.jsx';
 
 const DataManagement = () => {
   const dispatch = useDispatch();
@@ -162,9 +165,9 @@ const DataManagement = () => {
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="">
-        <div className="py-2 px-6 flex items-center justify-between mb-2">
+        <div className="py-6 px-6 flex items-center justify-between mb-2">
           <div className=''>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
               Data Management
             </h1>
           </div>
@@ -209,6 +212,10 @@ const DataManagement = () => {
       >
         {renderForm()}
       </FormModal>
+
+      <div className='px-6'>
+        <DataTable />
+      </div>
 
       {/* MessageBox */}
       {showMessage && message && (

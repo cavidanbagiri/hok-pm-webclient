@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import ProjectSelector from '../common/ProjectSelector';
+import ProjectSelector from './ProjectSelector';
 
 const AreaForm = ({ formData, setFormData, projects, userRole, userProjectId }) => {
   // Auto-set project_id for non-admin/manager users
