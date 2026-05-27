@@ -73,7 +73,7 @@ const ExcelFilter = ({ column, value, options, onFilterChange, onClear }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute top-full left-0 mt-1 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-[100]">
           {/* Header */}
           <div className="p-2 border-b border-gray-200">
             <div className="flex items-center justify-between mb-2">

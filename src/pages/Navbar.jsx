@@ -2,12 +2,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../stores/user_slice';
 
-import { IoHomeOutline } from "react-icons/io5";
-import { CiViewTable } from "react-icons/ci";
-import { CiDeliveryTruck } from "react-icons/ci";
-import { BsTruck } from "react-icons/bs";
-import { PiCraneTowerLight } from "react-icons/pi";
 import { RxDashboard } from "react-icons/rx";
+import { TfiHarddrive } from "react-icons/tfi";
+
+
+
 
 import { IoIosLogOut } from "react-icons/io";
 import { div } from 'framer-motion/client';
@@ -54,19 +53,19 @@ const Navbar = () => {
             </li>
           </>
         ) : (
-          <div className='flex flex-col justify-between h-full'>
+          <div className='flex flex-col justify-between h-full mt-3'>
 
             <div className='flex flex-col items-center w-full'>
               <div className='flex flex-col w-full items-center '>
                 
                 <li className='flex w-full'>
                   <NavLink
-                    to="/home"
+                    to="/dashboard"
                     className={({ isActive }) =>
                       `flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800  transition-colors ${isActive ? ' font-medium' : ''}`
                     }
                   >
-                    <IoHomeOutline className='text-2xl' />
+                    <RxDashboard className='text-2xl' />
                   </NavLink>
                 </li>
 
@@ -77,19 +76,7 @@ const Navbar = () => {
                       `flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800  transition-colors ${isActive ? ' font-medium' : ''}`
                     }
                   >
-                    <IoHomeOutline className='text-2xl' />
-                  </NavLink>
-                </li>
-
-
-                <li className='flex w-full'>
-                  <NavLink
-                    to="/dashboard"
-                    className={({ isActive }) =>
-                      `flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800  transition-colors ${isActive ? ' font-medium' : ''}`
-                    }
-                  >
-                    <RxDashboard className='text-2xl' />
+                    <TfiHarddrive   className='text-2xl' />
                   </NavLink>
                 </li>
 

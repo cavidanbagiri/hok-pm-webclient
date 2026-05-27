@@ -1,25 +1,68 @@
 import React from 'react';
 import { RefreshCw } from 'lucide-react';
 
+import { useDataTable } from './useDataTable';
+import DataTablePagination from './DataTablePagination';
+
 const DataTableHeader = ({ onRefresh }) => {
+  const {
+    // State
+    activeTab,
+    currentPage,
+    filters,
+    sortConfig,
+    contextMenu,
+    showEditModal,
+    editingItem,
+    showMessage,
+    localMessage,
+
+    // Data
+    tabs,
+    currentTab,
+    displayColumns,
+    processedData,
+    filteredData,
+    sortedData,
+    currentItems,
+    totalPages,
+    indexOfFirstItem,
+    indexOfLastItem,
+    loading,
+
+    // Actions
+    setActiveTab,
+    setCurrentPage,
+    setFilters,
+    setSortConfig,
+    setContextMenu,
+    setShowEditModal,
+    setEditingItem,
+    setShowMessage,
+    setLocalMessage,
+    handleSort,
+    handleFilterChange,
+    clearFilter,
+    handleContextMenu,
+    handleEdit,
+    handleUpdateSubmit,
+    refreshData,
+    getSortIcon,
+    getColumnOptions
+  } = useDataTable();
   return (
-    // <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
-    //   <div className="flex items-center justify-between">
-    //     {/* <div>
-    //       <h2 className="text-2xl font-bold text-gray-800">Data Management</h2>
-    //       <p className="text-gray-500 mt-1">View and manage all your warehouse data</p>
-    //     </div> */}
-    //     {/* <button
-    //       onClick={onRefresh}
-    //       className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-    //       title="Refresh"
-    //     >
-    //       <RefreshCw className="w-5 h-5" />
-    //     </button> */}
-    //   </div>
-    // </div>
-    <>
-    </>
+    <div className="flex justify-end border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white p-1">
+      <div className="flex items-center bg-gradient-to-r from-gray-50 to-white rounded-xl">
+        <button
+          onClick={onRefresh}
+          className="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+          title="Refresh"
+        >
+          <RefreshCw className="w-4 h-4" />
+          <span className='pl-3 text-sm'>Refresh Table</span>
+        </button>
+      </div>
+    </div>
   );
 };
 

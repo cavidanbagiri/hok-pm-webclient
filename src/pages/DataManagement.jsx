@@ -14,7 +14,6 @@ import AreaForm from '../components/common/AreaForm';
 import LocationForm from '../components/common/LocationForm';
 import MessageBox from '../layouts/MessageBox';
 
-// import DataTable from '../components/common/DataTable';
 import DataTable from '../components/common/DataTable/index.jsx';
 
 const DataManagement = () => {
@@ -179,7 +178,7 @@ const DataManagement = () => {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-9 gap-3 mb-8 py-2 px-6 ">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 2xl:grid-cols-9 gap-3 mb-8 py-2 px-6 ">
         {dataConfigs.map((config) => (
         <div
             key={config.id}

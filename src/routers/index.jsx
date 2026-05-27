@@ -6,7 +6,6 @@ import PublicRoute from '../components/auth/PublicRoute';
 
 import Auth from '../pages/Auth';
 import Dashboard from '../pages/Dashboard';
-import Home from '../pages/Home';
 import DataManagement from '../pages/DataManagement';
 
 const router = createBrowserRouter([
@@ -31,14 +30,6 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'home',
-        element: (
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: 'datamanagement',
         element: (
           <ProtectedRoute>
@@ -48,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         index: true,
-        element: <Home />, // or redirect logic
+        element: <Dashboard />, // or redirect logic
       },
     ],
   },

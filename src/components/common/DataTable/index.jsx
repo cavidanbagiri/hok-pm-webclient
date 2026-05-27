@@ -69,8 +69,8 @@ const DataTable = () => {
         onTabChange={setActiveTab}
       />
       
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
+      <div className="overflow-x-auto relative">
+        <table className="min-w-full divide-y divide-gray-200" style={{ overflow: 'visible' }}>
           {/* Header Row with Sort */}
           <thead className="bg-gray-50">
             <tr>
@@ -100,7 +100,7 @@ const DataTable = () => {
             <tr className="border-t border-gray-200">
               <th className="px-4 py-2"></th>
               {displayColumns.map((column) => (
-                <th key={`filter-${column}`} className="px-4 py-2">
+                <th key={`filter-${column}`} className="px-4 py-2 relative">
                   <ExcelFilter
                     column={column}
                     value={filters[column] || ''}

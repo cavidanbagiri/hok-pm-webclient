@@ -77,7 +77,7 @@ const EditModal = ({ isOpen, onClose, item, tab, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/20 backdrop-blur-md border border-white/30 animate-fadeIn">
       <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
         <div className={`bg-gradient-to-r from-${tab.color}-500 to-${tab.color}-600 p-6`}>
           <div className="flex items-center justify-between">
