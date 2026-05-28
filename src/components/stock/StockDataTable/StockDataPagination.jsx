@@ -10,13 +10,8 @@ const StockDataPagination = ({ pagination, currentPage, pageSize, onPageChange }
     const endItem = Math.min(currentPage * pageSize, total_count);
 
     return (
-        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
-            <div className="text-sm text-gray-500">
-                Showing {startItem} to {endItem} of {total_count} entries
-                <span className="ml-2 text-gray-400">(Page size: {pageSize})</span>
-            </div>
-            
-            <div className="flex items-center gap-2">
+        <div className="px-3 py-2 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs">
                 <button
                     onClick={() => onPageChange(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -25,7 +20,7 @@ const StockDataPagination = ({ pagination, currentPage, pageSize, onPageChange }
                     <ChevronLeft className="w-5 h-5" />
                 </button>
                 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 text-sm">
                     {Array.from({ length: Math.min(5, total_pages) }, (_, i) => {
                         let pageNum;
                         if (total_pages <= 5) {
@@ -60,6 +55,10 @@ const StockDataPagination = ({ pagination, currentPage, pageSize, onPageChange }
                 >
                     <ChevronRight className="w-5 h-5" />
                 </button>
+            </div>
+            <div className="text-xs text-gray-500">
+                Showing {startItem} to {endItem} of {total_count} entries
+                <span className="ml-2 text-gray-400">(Page size: {pageSize})</span>
             </div>
         </div>
     );

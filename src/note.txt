@@ -1,3 +1,5 @@
 Problems:
 1) After selecting values from filter, the ExcelFilter component doesnt show correctly
 2) Need to fix the ExcelFilter for growing as user wants.
+3) Need to fix edit data in Stock and type
+4) Get all unique values from backend and show in filter

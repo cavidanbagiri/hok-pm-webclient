@@ -16,6 +16,8 @@ import MessageBox from '../layouts/MessageBox';
 
 import DataTable from '../components/common/DataTable/index.jsx';
 
+import { HardDrive } from 'lucide-react';
+
 const DataManagement = () => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
@@ -165,11 +167,11 @@ const DataManagement = () => {
     <div className="w-full min-h-screen bg-white">
       <div className="">
         <div className="py-6 px-6 flex items-center justify-between ">
-          <div className=''>
-            <h1 style={{"fontFamily": "Inter"}}
-            className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-900 bg-clip-text text-transparent pb-2">
-              Data Management
-            </h1>
+          <div className='flex items-center'>
+            <HardDrive className="w-7 h-7 text-blue-500" />
+                                <h2 className="ml-2 text-4xl font-bold text-gray-800" style={{"fontFamily":"Inter"}}>
+                                    Data Management
+                                </h2>
           </div>
           <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg shadow-sm">
             <Database className="w-4 h-4 text-gray-400" />

@@ -26,8 +26,8 @@ export const useStockData = () => {
 
     // Column visibility state - initialize with all columns visible
     const [visibleColumns, setVisibleColumns] = useState({
-        stock: ['id', 'stock_code', 'type_name', 'uom_name', 'subtype_name', 'size1_name', 'size2_name', 'thickness_1', 'thickness_2'],
-        type: ['id', 'type_name', 'subtype_name', 'size1_name', 'size2_name', 'material_name', 'description_name', 'thickness_1', 'thickness_2']
+        stock: ['stock_code', 'type_name', 'uom_name', 'subtype_name', 'size1_name', 'size2_name', 'thickness_1', 'thickness_2'],
+        type: ['type_name', 'subtype_name', 'size1_name', 'size2_name',  'thickness_1', 'thickness_2']
     });
 
     // Selectors

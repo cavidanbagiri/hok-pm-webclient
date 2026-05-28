@@ -12,6 +12,8 @@ import { useStockData } from './useStockData';
 import { useSelector } from 'react-redux';
 import { selectStockMessage } from '../../../stores/stock_slice';
 
+import { Database } from 'lucide-react';
+
 const StockDataTable = () => {
     const {
         activeTab,
@@ -67,8 +69,31 @@ const StockDataTable = () => {
     const hasFilters = Object.keys(filters).length > 0;
 
     return (
-        <div className="w-full bg-white rounded-2xl shadow-xl overflow-hidden relative">
-            <StockDataHeader 
+        <div className="w-full bg-white shadow-xl overflow-hidden relative">
+            
+            <div className='py-6 px-6 '>
+                <div className="flex items-center gap-2">
+                    <Database className="w-6 h-6 text-blue-500" />
+                    <h2 className="text-4xl font-bold text-gray-800" style={{"fontFamily":"Inter"}}>
+                        Stock & Type Management
+                    </h2>
+                </div>
+                {/* <p className="text-gray-500 mt-1">
+                    Manage {activeTab === 'stock' ? 'stock inventory' : 'item types'} with advanced filtering
+                </p> */}
+            </div>
+            
+            <StockDataTabs activeTab={activeTab} onTabChange={setActiveTab} />
+
+
+             <StockDataPagination
+                pagination={pagination}
+                currentPage={currentPage}
+                pageSize={pageSize}
+                onPageChange={handlePageChange}
+            />
+            
+            {/* <StockDataHeader 
                 onRefresh={refreshData}
                 pageSize={pageSize}
                 onPageSizeChange={handlePageSizeChange}
@@ -76,18 +101,30 @@ const StockDataTable = () => {
                 onClearAllFilters={clearAllFilters}
                 activeTab={activeTab}
                 hasFilters={hasFilters}
-            />
+            /> */}
+
+<StockDataHeader 
+    onRefresh={refreshData}
+    pageSize={pageSize}
+    onPageSizeChange={handlePageSizeChange}
+    onToggleColumnMenu={() => setShowColumnMenu(!showColumnMenu)}
+    onClearAllFilters={clearAllFilters}
+    activeTab={activeTab}
+    hasFilters={hasFilters}
+    showColumnMenu={showColumnMenu}           // Add this
+    currentColumns={currentColumns}           // Add this
+    currentVisibleColumns={currentVisibleColumns} // Add this
+    toggleColumn={toggleColumn}               // Add this
+/>
             
-            <StockDataTabs activeTab={activeTab} onTabChange={setActiveTab} />
-            
-            {showColumnMenu && (
+            {/* {showColumnMenu && (
                 <ColumnVisibilityMenu
                     columns={currentColumns}
                     visibleColumns={currentVisibleColumns}
                     onToggleColumn={toggleColumn}
                     onClose={() => setShowColumnMenu(false)}
                 />
-            )}
+            )} */}
             
             <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">

@@ -14,13 +14,6 @@ const DataTablePagination = ({
 
   return (
     <div className="px-2 py-1 border-gray-200 bg-gray-50 flex items-center justify-between">
-      <div className="text-xs text-gray-500">
-        {/* Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedData.length)} of {sortedData.length} entries */}
-        <div className="text-xs text-gray-500">
-          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedData.length)} of {sortedData.length} entries
-          <span className="ml-2 text-gray-400">(Page size: {itemsPerPage})</span>
-        </div>
-      </div>
       <div className="flex items-center gap-2">
         <button
           onClick={() => onPageChange(prev => Math.max(prev - 1, 1))}
@@ -62,6 +55,13 @@ const DataTablePagination = ({
         >
           <ChevronRight className="w-5 h-5" />
         </button>
+      </div>
+      <div className="text-xs text-gray-500">
+        {/* Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedData.length)} of {sortedData.length} entries */}
+        <div className="text-xs text-gray-500">
+          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedData.length)} of {sortedData.length} entries
+          <span className="ml-2 text-gray-400">(Page size: {itemsPerPage})</span>
+        </div>
       </div>
 
     </div>

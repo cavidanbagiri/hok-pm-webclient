@@ -4,7 +4,7 @@ import { logout, reset } from '../stores/user_slice';
 
 import { RxDashboard } from "react-icons/rx";
 import { TfiHarddrive } from "react-icons/tfi";
-import { Layers, LayoutDashboard, HardDrive } from 'lucide-react';
+import { Layers, LayoutDashboard, HardDrive, Database } from 'lucide-react';
 
 
 
@@ -104,7 +104,7 @@ const Navbar = () => {
                       `group relative flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800 transition-colors ${isActive ? 'font-medium' : ''}`
                     }
                   >
-                    <Layers className='text-2xl' />
+                    <Database className='text-2xl' />
 
                     {/* Компонент Тултипа */}
                     <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50 pointer-events-none

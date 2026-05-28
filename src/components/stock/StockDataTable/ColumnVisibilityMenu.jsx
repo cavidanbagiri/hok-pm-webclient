@@ -17,8 +17,7 @@ const ColumnVisibilityMenu = ({ columns, visibleColumns, onToggleColumn, onClose
     return (
         <div 
             ref={menuRef}
-            className="absolute right-6 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 z-50"
-            style={{ top: '100px' }}
+            className="w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-[100]"
         >
             <div className="p-3 border-b border-gray-200 bg-gray-50 rounded-t-lg">
                 <h3 className="text-sm font-semibold text-gray-700">Show/Hide Columns</h3>
