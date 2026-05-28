@@ -71,7 +71,7 @@ const DataTableBody = ({
           </td>
           
           {displayColumns.map((column) => (
-            <td key={column} className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+            <td key={column} className="px-4 py-3 whitespace-nowrap text-xs text-gray-900">
               {item[column] !== null && item[column] !== undefined ? item[column] : '-'}
             </td>
           ))}

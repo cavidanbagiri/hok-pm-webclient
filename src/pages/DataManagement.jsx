@@ -166,7 +166,8 @@ const DataManagement = () => {
       <div className="">
         <div className="py-6 px-6 flex items-center justify-between ">
           <div className=''>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent pb-2">
+            <h1 style={{"fontFamily": "Inter"}}
+            className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-900 bg-clip-text text-transparent pb-2">
               Data Management
             </h1>
           </div>
@@ -178,7 +179,7 @@ const DataManagement = () => {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 2xl:grid-cols-9 gap-3 mb-2 px-6 ">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-9 gap-3 mb-4 px-6">
         {dataConfigs.map((config) => (
         <div
             key={config.id}
