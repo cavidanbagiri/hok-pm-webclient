@@ -1,0 +1,97 @@
+import React, { useEffect, useRef } from 'react';
+import { Eye, Edit, Trash2, Package, MapPin, TrendingUp, Warehouse } from 'lucide-react';
+
+const iconMap = {
+    Package: Package,
+    MapPin: MapPin,
+    Eye: Eye,
+    Edit: Edit,
+    Trash2: Trash2,
+    TrendingUp: TrendingUp,
+    Warehouse: Warehouse
+};
+
+const ContextMenu = ({ x, y, item, onClose, onEdit, onView, onDelete, customActions = [] }) => {
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                onClose();
+            }
+        };
+        
+        // Adjust position if menu goes off screen
+        const adjustPosition = () => {
+            if (menuRef.current) {
+                const rect = menuRef.current.getBoundingClientRect();
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                let newX = x;
+                let newY = y;
+                
+                if (rect.right > viewportWidth) {
+                    newX = viewportWidth - rect.width - 10;
+                }
+                if (rect.bottom > viewportHeight) {
+                    newY = viewportHeight - rect.height - 10;
+                }
+                
+                if (newX !== x || newY !== y) {
+                    menuRef.current.style.left = `${newX}px`;
+                    menuRef.current.style.top = `${newY}px`;
+                }
+            }
+        };
+        
+        document.addEventListener('mousedown', handleClickOutside);
+        setTimeout(adjustPosition, 0);
+        
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [onClose, x, y]);
+
+    return (
+        <div
+            ref={menuRef}
+            className="fixed z-50 bg-white rounded-lg shadow-xl border border-gray-200 py-1 min-w-[180px] animate-fadeIn"
+            style={{ top: y, left: x }}
+        >
+            <button
+                onClick={() => { onView(); onClose(); }}
+                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+            >
+                <Eye className="w-4 h-4" /> View Details
+            </button>
+            <button
+                onClick={() => { onEdit(); onClose(); }}
+                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+            >
+                <Edit className="w-4 h-4" /> Edit
+            </button>
+            
+            {customActions.map((action, idx) => {
+                const IconComponent = iconMap[action.icon] || Package;
+                return (
+                    <button
+                        key={idx}
+                        onClick={() => { action.onClick(); onClose(); }}
+                        className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                    >
+                        <IconComponent className="w-4 h-4" /> {action.label}
+                    </button>
+                );
+            })}
+            
+            <div className="border-t border-gray-100 my-1"></div>
+            <button
+                onClick={() => { onDelete(); onClose(); }}
+                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+            >
+                <Trash2 className="w-4 h-4" /> Delete
+            </button>
+        </div>
+    );
+};
+
+export default ContextMenu;

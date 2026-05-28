@@ -4,6 +4,7 @@ import { logout, reset } from '../stores/user_slice';
 
 import { RxDashboard } from "react-icons/rx";
 import { TfiHarddrive } from "react-icons/tfi";
+import { Layers, LayoutDashboard, HardDrive } from 'lucide-react';
 
 
 
@@ -57,15 +58,23 @@ const Navbar = () => {
 
             <div className='flex flex-col items-center w-full'>
               <div className='flex flex-col w-full items-center '>
-                
+
                 <li className='flex w-full'>
                   <NavLink
                     to="/dashboard"
                     className={({ isActive }) =>
-                      `flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800  transition-colors ${isActive ? ' font-medium' : ''}`
+                      `group relative flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800 transition-colors ${isActive ? 'font-medium' : ''}`
                     }
                   >
-                    <RxDashboard className='text-2xl' />
+                    <LayoutDashboard className='text-2xl' />
+
+                    {/* Компонент Тултипа */}
+                    <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50 pointer-events-none
+                     scale-0 group-hover:scale-100 transition-all duration-150 origin-left
+                     bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-md shadow-lg
+                     whitespace-nowrap border border-gray-700">
+                      Dashboard
+                    </span>
                   </NavLink>
                 </li>
 
@@ -73,10 +82,37 @@ const Navbar = () => {
                   <NavLink
                     to="/datamanagement"
                     className={({ isActive }) =>
-                      `flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800  transition-colors ${isActive ? ' font-medium' : ''}`
+                      `group relative flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800 transition-colors ${isActive ? 'font-medium' : ''}`
                     }
                   >
-                    <TfiHarddrive   className='text-2xl' />
+                    <HardDrive className='text-2xl' />
+
+                    {/* Компонент Тултипа */}
+                    <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50 pointer-events-none
+                     scale-0 group-hover:scale-100 transition-all duration-150 origin-left
+                     bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-md shadow-lg
+                     whitespace-nowrap border border-gray-700">
+                      Data Management
+                    </span>
+                  </NavLink>
+                </li>
+
+                <li className='flex w-full'>
+                  <NavLink
+                    to="/stock"
+                    className={({ isActive }) =>
+                      `group relative flex items-center justify-center py-4 text-white w-full no-underline hover:bg-gray-800 transition-colors ${isActive ? 'font-medium' : ''}`
+                    }
+                  >
+                    <Layers className='text-2xl' />
+
+                    {/* Компонент Тултипа */}
+                    <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50 pointer-events-none
+                     scale-0 group-hover:scale-100 transition-all duration-150 origin-left
+                     bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-md shadow-lg
+                     whitespace-nowrap border border-gray-700">
+                      Stock Data
+                    </span>
                   </NavLink>
                 </li>
 

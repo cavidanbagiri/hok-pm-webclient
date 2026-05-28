@@ -7,6 +7,7 @@ import PublicRoute from '../components/auth/PublicRoute';
 import Auth from '../pages/Auth';
 import Dashboard from '../pages/Dashboard';
 import DataManagement from '../pages/DataManagement';
+import StockData from '../pages/StockData'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <DataManagement />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'stock',
+        element: (
+          <ProtectedRoute>
+            <StockData />
           </ProtectedRoute>
         ),
       },
