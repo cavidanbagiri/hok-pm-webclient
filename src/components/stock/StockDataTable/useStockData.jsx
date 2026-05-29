@@ -338,6 +338,7 @@ export const useStockData = () => {
         currentColumns: getCurrentColumns(),
         currentVisibleColumns: getCurrentVisibleColumns(),
         loading,
+        uniqueValues,
 
         // Actions
         setActiveTab,

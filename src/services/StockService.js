@@ -10,6 +10,15 @@ class StockService {
         }
     }
 
+    async post(url, data = {}) {
+        try {
+            const response = await $api.post(url, data);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async put(url, data = {}) {
         try {
             const response = await $api.put(url, data);
@@ -42,14 +51,30 @@ class StockService {
     }
 
     // =========================
+    // CREATE TYPE
+    // =========================
+    async createType(data) {
+        return this.post('/common/create_type', data);
+    }
+
+    // =========================
+    // CREATE STOCK
+    // =========================
+    async createStock(data) {
+        return this.post('/common/create_stock', data);
+    }
+
+    // =========================
     // UNIQUE VALUES
     // =========================
     async fetchUniqueValues(tables = null) {
         const params = tables ? { tables: tables.join(',') } : {};
         const response = await this.get('/common/fetch_unique_values', params);
-        console.log('the coming data is ', response)    
         return response.data;
     }
+
+    
+
 }
 
 export default new StockService();

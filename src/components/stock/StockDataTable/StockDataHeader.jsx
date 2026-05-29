@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshCw, Settings, Eye, Database, FilterX, Import, BadgePlus } from 'lucide-react';
+import { RefreshCw, Settings, Eye, Database, FilterX, Import, BadgePlus, Package } from 'lucide-react';
 import ColumnVisibilityMenu from './ColumnVisibilityMenu';
 
 const StockDataHeader = ({
@@ -13,7 +13,9 @@ const StockDataHeader = ({
     showColumnMenu,
     currentColumns,
     currentVisibleColumns,
-    toggleColumn
+    toggleColumn,
+    onCreateType,
+    onCreateStock,  // Add this prop
 }) => {
     const pageSizeOptions = [50, 100, 150, 200];
     const buttonRef = React.useRef(null);
@@ -66,19 +68,22 @@ const StockDataHeader = ({
                         <span className='pl-1 text-xs'>Import CSV</span>
                     </button>
 
-                    {/* Import CSV Button */}
+                    {/* Create Stock */}
+                    {/* Create Stock Button - Only show on Stock tab */}
+                    
                     <button
-                        onClick={onRefresh}
-                        className="flex items-center p-2  text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
-                        title="Import CSV"
+                        onClick={onCreateStock}
+                        className="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                        title="Create Stock"
                     >
-                        <BadgePlus className="w-4 h-4" />
+                        <Package className="w-4 h-4" />
                         <span className='pl-1 text-xs'>Create Stock</span>
                     </button>
+                    
 
-                    {/* Import CSV Button */}
+                    {/* Create Type */}
                     <button
-                        onClick={onRefresh}
+                        onClick={onCreateType}
                         className="flex items-center p-2 mr-2 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
                         title="Import CSV"
                     >

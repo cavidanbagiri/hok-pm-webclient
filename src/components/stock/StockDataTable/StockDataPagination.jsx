@@ -20,7 +20,7 @@ const StockDataPagination = ({ pagination, currentPage, pageSize, onPageChange }
                     <ChevronLeft className="w-5 h-5" />
                 </button>
                 
-                <div className="flex items-center gap-1 text-sm">
+                {/* <div className="flex items-center gap-1 text-sm">
                     {Array.from({ length: Math.min(5, total_pages) }, (_, i) => {
                         let pageNum;
                         if (total_pages <= 5) {
@@ -31,6 +31,33 @@ const StockDataPagination = ({ pagination, currentPage, pageSize, onPageChange }
                             pageNum = total_pages - 4 + i;
                         } else {
                             pageNum = currentPage - 2 + i;
+                        }
+                        return (
+                            <button
+                                key={pageNum}
+                                onClick={() => onPageChange(pageNum)}
+                                className={`px-3 py-1 rounded-lg transition-colors ${
+                                    currentPage === pageNum
+                                        ? 'bg-blue-500 text-white'
+                                        : 'text-gray-600 hover:bg-gray-200'
+                                }`}
+                            >
+                                {pageNum}
+                            </button>
+                        );
+                    })}
+                </div> */}
+                 <div className="flex items-center gap-1 text-sm">
+                    {Array.from({ length: Math.min(10, total_pages) }, (_, i) => {
+                        let pageNum;
+                        if (total_pages <= 10) {
+                            pageNum = i + 1;
+                        } else if (currentPage <= 5) {
+                            pageNum = i + 1;
+                        } else if (currentPage >= total_pages - 2) {
+                            pageNum = total_pages - 9 + i;
+                        } else {
+                            pageNum = currentPage - 4 + i;
                         }
                         return (
                             <button

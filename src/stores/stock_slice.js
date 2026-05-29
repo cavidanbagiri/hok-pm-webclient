@@ -72,6 +72,37 @@ export const fetchUniqueValues = createAsyncThunk(
 );
 
 // =========================
+// CREATE TYPE
+// =========================
+export const createType = createAsyncThunk(
+    'stock/createType',
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await StockService.createType(data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
+
+// =========================
+// CREATE STOCK
+// =========================
+export const createStock = createAsyncThunk(
+    'stock/createStock',
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await StockService.createStock(data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
+// =========================
 // INITIAL STATE
 // =========================
 const initialState = {
@@ -100,6 +131,8 @@ const initialState = {
         fetchType: false,
         updateType: false,
         fetchUniqueValues: false,
+        createType: false,
+        createStock: false,  // Add this
     },
 
     uniqueValues: {
@@ -119,6 +152,7 @@ const initialState = {
     
     // Error states
     errors: {},
+
     
     // Message states
     message: null,
@@ -227,12 +261,41 @@ const stockSlice = createSlice({
             })
             .addCase(fetchUniqueValues.fulfilled, (state, action) => {
                 state.loading.fetchUniqueValues = false;
-                console.log('slice values ', action.payload)
                 state.uniqueValues = action.payload;
             })
             .addCase(fetchUniqueValues.rejected, (state, action) => {
                 state.loading.fetchUniqueValues = false;
                 state.errors.fetchUniqueValues = action.payload;
+            })
+            .addCase(createType.pending, (state) => {
+                state.loading.createType = true;
+                state.errors.createType = null;
+            })
+            .addCase(createType.fulfilled, (state, action) => {
+                state.loading.createType = false;
+                state.message = 'Type created successfully!';
+                state.messageCond = 'success';
+            })
+            .addCase(createType.rejected, (state, action) => {
+                state.loading.createType = false;
+                state.errors.createType = action.payload;
+                state.message = `Failed to create type: ${action.payload?.detail || action.payload}`;
+                state.messageCond = 'error';
+            })
+            .addCase(createStock.pending, (state) => {
+                state.loading.createStock = true;
+                state.errors.createStock = null;
+            })
+            .addCase(createStock.fulfilled, (state, action) => {
+                state.loading.createStock = false;
+                state.message = `Stock "${action.payload.stock_code}" created successfully!`;
+                state.messageCond = 'success';
+            })
+            .addCase(createStock.rejected, (state, action) => {
+                state.loading.createStock = false;
+                state.errors.createStock = action.payload;
+                state.message = `Failed to create stock: ${action.payload?.detail || action.payload}`;
+                state.messageCond = 'error';
             });
     }
 });
