@@ -120,6 +120,20 @@ const ExcelFilter = ({ column, value, options, onFilterChange, onClear, columnLa
                                 Select All ({options.length})
                             </button>
                         </div>
+                        {/* {filteredOptions.map((opt) => (
+                            <button
+                                key={opt}
+                                onClick={() => handleToggleValue(opt)}
+                                className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 rounded flex items-center gap-2"
+                            >
+                                <div className={`w-3 h-3 border rounded flex items-center justify-center ${
+                                    selectedValues.includes(opt) ? 'bg-blue-500 border-blue-500' : 'border-gray-400'
+                                }`}>
+                                    {selectedValues.includes(opt) && <Check className="w-2 h-2 text-white" />}
+                                </div>
+                                <span className="truncate">{opt}</span>
+                            </button>
+                        ))} */}
                         {filteredOptions.map((opt) => (
                             <button
                                 key={opt}

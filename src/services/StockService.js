@@ -40,6 +40,16 @@ class StockService {
     async updateType(id, data) {
         return this.put(`/common/update_type/${id}`, data);
     }
+
+    // =========================
+    // UNIQUE VALUES
+    // =========================
+    async fetchUniqueValues(tables = null) {
+        const params = tables ? { tables: tables.join(',') } : {};
+        const response = await this.get('/common/fetch_unique_values', params);
+        console.log('the coming data is ', response)    
+        return response.data;
+    }
 }
 
 export default new StockService();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshCw, Settings, Eye, Database, FilterX, Import } from 'lucide-react';
+import { RefreshCw, Settings, Eye, Database, FilterX, Import, BadgePlus } from 'lucide-react';
 import ColumnVisibilityMenu from './ColumnVisibilityMenu';
 
 const StockDataHeader = ({
@@ -53,17 +53,37 @@ const StockDataHeader = ({
                         title="Refresh"
                     >
                         <RefreshCw className="w-4 h-4" />
-                        <span className='pl-2 text-xs'>Refresh Table</span>
+                        <span className='pl-1 text-xs'>Refresh Table</span>
                     </button>
 
                     {/* Import CSV Button */}
                     <button
                         onClick={onRefresh}
-                        className="flex items-center p-2 mr-3 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                        className="flex items-center p-2  text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
                         title="Import CSV"
                     >
                         <Import className="w-4 h-4" />
-                        <span className='pl-2 text-xs'>Import CSV</span>
+                        <span className='pl-1 text-xs'>Import CSV</span>
+                    </button>
+
+                    {/* Import CSV Button */}
+                    <button
+                        onClick={onRefresh}
+                        className="flex items-center p-2  text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                        title="Import CSV"
+                    >
+                        <BadgePlus className="w-4 h-4" />
+                        <span className='pl-1 text-xs'>Create Stock</span>
+                    </button>
+
+                    {/* Import CSV Button */}
+                    <button
+                        onClick={onRefresh}
+                        className="flex items-center p-2 mr-2 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                        title="Import CSV"
+                    >
+                        <BadgePlus className="w-4 h-4" />
+                        <span className='pl-1 text-xs'>Create Type</span>
                     </button>
 
                     {/* Page Size Selector */}

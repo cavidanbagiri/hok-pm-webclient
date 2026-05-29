@@ -45,6 +45,7 @@ const StockDataTable = () => {
         refreshData,
         getUniqueValues,
         getNestedValue,
+        loading: { fetchUniqueValues: loadingUniqueValues }
     } = useStockData();
 
     const { message, cond } = useSelector(selectStockMessage);
@@ -62,19 +63,19 @@ const StockDataTable = () => {
         }
     }, [message, cond]);
 
-    const isLoading = activeTab === 'stock' 
-        ? loading.fetchStockData 
+    const isLoading = activeTab === 'stock'
+        ? loading.fetchStockData
         : loading.fetchType;
-    
+
     const hasFilters = Object.keys(filters).length > 0;
 
     return (
         <div className="w-full bg-white shadow-xl overflow-hidden relative">
-            
+
             <div className='py-6 px-6 '>
                 <div className="flex items-center gap-2">
                     <Database className="w-6 h-6 text-blue-500" />
-                    <h2 className="text-4xl font-bold text-gray-800" style={{"fontFamily":"Inter"}}>
+                    <h2 className="text-4xl font-bold text-gray-800" style={{ "fontFamily": "Inter" }}>
                         Stock & Type Management
                     </h2>
                 </div>
@@ -82,18 +83,20 @@ const StockDataTable = () => {
                     Manage {activeTab === 'stock' ? 'stock inventory' : 'item types'} with advanced filtering
                 </p> */}
             </div>
-            
+
             <StockDataTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
 
-             <StockDataPagination
+            <StockDataPagination
                 pagination={pagination}
                 currentPage={currentPage}
                 pageSize={pageSize}
                 onPageChange={handlePageChange}
             />
-            
-            {/* <StockDataHeader 
+
+
+
+            <StockDataHeader
                 onRefresh={refreshData}
                 pageSize={pageSize}
                 onPageSizeChange={handlePageSizeChange}
@@ -101,31 +104,13 @@ const StockDataTable = () => {
                 onClearAllFilters={clearAllFilters}
                 activeTab={activeTab}
                 hasFilters={hasFilters}
-            /> */}
+                showColumnMenu={showColumnMenu}           // Add this
+                currentColumns={currentColumns}           // Add this
+                currentVisibleColumns={currentVisibleColumns} // Add this
+                toggleColumn={toggleColumn}               // Add this
+            />
 
-<StockDataHeader 
-    onRefresh={refreshData}
-    pageSize={pageSize}
-    onPageSizeChange={handlePageSizeChange}
-    onToggleColumnMenu={() => setShowColumnMenu(!showColumnMenu)}
-    onClearAllFilters={clearAllFilters}
-    activeTab={activeTab}
-    hasFilters={hasFilters}
-    showColumnMenu={showColumnMenu}           // Add this
-    currentColumns={currentColumns}           // Add this
-    currentVisibleColumns={currentVisibleColumns} // Add this
-    toggleColumn={toggleColumn}               // Add this
-/>
-            
-            {/* {showColumnMenu && (
-                <ColumnVisibilityMenu
-                    columns={currentColumns}
-                    visibleColumns={currentVisibleColumns}
-                    onToggleColumn={toggleColumn}
-                    onClose={() => setShowColumnMenu(false)}
-                />
-            )} */}
-            
+
             <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     {/* Header Row with Column Labels */}
@@ -137,8 +122,8 @@ const StockDataTable = () => {
                             {currentColumns
                                 .filter(col => currentVisibleColumns.includes(col.key))
                                 .map((column) => (
-                                    <th 
-                                        key={column.key} 
+                                    <th
+                                        key={column.key}
                                         className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap"
                                     >
                                         {column.label}
@@ -149,7 +134,7 @@ const StockDataTable = () => {
                             </th>
                         </tr>
                     </thead>
-                    
+
                     {/* Filter Row */}
                     <StockDataFilters
                         columns={currentColumns}
@@ -160,7 +145,7 @@ const StockDataTable = () => {
                         onClearAllFilters={clearAllFilters}
                         getUniqueValues={getUniqueValues}
                     />
-                    
+
                     {/* Body */}
                     <StockDataBody
                         data={currentData}
@@ -174,14 +159,14 @@ const StockDataTable = () => {
                     />
                 </table>
             </div>
-            
+
             <StockDataPagination
                 pagination={pagination}
                 currentPage={currentPage}
                 pageSize={pageSize}
                 onPageChange={handlePageChange}
             />
-            
+
             {contextMenu && (
                 <ContextMenu
                     x={contextMenu.x}
@@ -197,7 +182,7 @@ const StockDataTable = () => {
                     ]}
                 />
             )}
-            
+
             {showEditModal && editingItem && (
                 <EditModal
                     isOpen={showEditModal}
@@ -210,7 +195,7 @@ const StockDataTable = () => {
                     onSubmit={handleUpdateSubmit}
                 />
             )}
-            
+
             {showMessage && localMessage.msg && (
                 <MessageBox
                     msg={localMessage.msg}

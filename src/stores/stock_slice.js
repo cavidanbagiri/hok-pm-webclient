@@ -55,6 +55,22 @@ export const updateType = createAsyncThunk(
     }
 );
 
+
+// =========================
+// UNIQUE DATA THUNKS
+// =========================
+export const fetchUniqueValues = createAsyncThunk(
+    'stock/fetchUniqueValues',
+    async (tables = null, { rejectWithValue }) => {
+        try {
+            const response = await StockService.fetchUniqueValues(tables);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // =========================
 // INITIAL STATE
 // =========================
@@ -83,6 +99,22 @@ const initialState = {
         updateStock: false,
         fetchType: false,
         updateType: false,
+        fetchUniqueValues: false,
+    },
+
+    uniqueValues: {
+        areas: [],
+        locations: [],
+        uoms: [],
+        subtypes: [],
+        size1: [],
+        size2: [],
+        materials: [],
+        descriptions: [],
+        item_types: [],
+        stock_codes: [],
+        thickness: [],
+        project_ids: []
     },
     
     // Error states
@@ -189,6 +221,18 @@ const stockSlice = createSlice({
                 state.errors.updateType = action.payload;
                 state.message = `Failed to update type: ${action.payload?.detail || action.payload}`;
                 state.messageCond = 'error';
+            })
+            .addCase(fetchUniqueValues.pending, (state) => {
+                state.loading.fetchUniqueValues = true;
+            })
+            .addCase(fetchUniqueValues.fulfilled, (state, action) => {
+                state.loading.fetchUniqueValues = false;
+                console.log('slice values ', action.payload)
+                state.uniqueValues = action.payload;
+            })
+            .addCase(fetchUniqueValues.rejected, (state, action) => {
+                state.loading.fetchUniqueValues = false;
+                state.errors.fetchUniqueValues = action.payload;
             });
     }
 });
@@ -200,6 +244,7 @@ export const selectStockData = (state) => state.stock.stockData;
 export const selectStockPagination = (state) => state.stock.stockPagination;
 export const selectTypeData = (state) => state.stock.typeData;
 export const selectTypePagination = (state) => state.stock.typePagination;
+export const selectUniqueValues = (state) => state.stock.uniqueValues;
 export const selectStockLoading = (state) => state.stock.loading;
 export const selectStockMessage = (state) => ({ 
     message: state.stock.message, 
