@@ -80,7 +80,33 @@ class StockService {
         console.log('service called')
         return this.get('/common/fetch_types_without_stock');
     }
-
+    // Add this method
+async fetchFilteredUniqueValues(filters = {}) {
+    const params = {};
+    
+    // Map frontend filter keys to backend parameter names
+    const filterMapping = {
+        type_name: 'type_name',
+        subtype_name: 'subtype_name', 
+        size1_name: 'size1_name',
+        size2_name: 'size2_name',
+        material_name: 'material_name',
+        description_name: 'description_name',
+        thickness_1: 'thickness_1',
+        thickness_2: 'thickness_2',
+        stock_code: 'stock_code',
+        uom_name: 'uom_name'
+    };
+    
+    // Only include filters that have values
+    Object.keys(filters).forEach(key => {
+        if (filters[key] && filterMapping[key]) {
+            params[filterMapping[key]] = filters[key];
+        }
+    });
+    
+    return this.get('/common/fetch_unique_values', params);
+}
     
 
 }

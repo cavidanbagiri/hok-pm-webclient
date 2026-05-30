@@ -64,7 +64,7 @@ const StockDataBody = ({
                     className="hover:bg-gray-50 transition-colors cursor-context-menu"
                     onContextMenu={(e) => onContextMenu(e, item)}
                 >
-                    <td className="px-4 py-3 whitespace-nowrap text-center">
+                    <td className="px-4 py-1 whitespace-nowrap text-center">
                         <button
                             onClick={(e) => onContextMenu(e, item)}
                             className="p-1 hover:bg-gray-200 rounded transition-colors"
@@ -74,12 +74,12 @@ const StockDataBody = ({
                     </td>
                     
                     {visibleColumnObjects.map((column) => (
-                        <td key={column.key} className="px-4 py-3 whitespace-nowrap text-xs text-gray-900">
+                        <td key={column.key} className="px-4 py-1 whitespace-nowrap text-xs text-gray-900">
                             {getNestedValue(item, column.key)}
                         </td>
                     ))}
                     
-                    <td className="px-4 py-3 whitespace-nowrap text-center">
+                    <td className="px-4 py-1.5 whitespace-nowrap text-center">
                         <div className="flex items-center justify-center gap-1">
                             <button
                                 onClick={() => onEdit(item)}

@@ -116,6 +116,20 @@ export const fetchTypesWithoutStock = createAsyncThunk(
     }
 );
 
+
+// Add this thunk
+export const fetchFilteredUniqueValues = createAsyncThunk(
+    'stock/fetchFilteredUniqueValues',
+    async (filters, { rejectWithValue }) => {
+        try {
+            const response = await StockService.fetchFilteredUniqueValues(filters);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // =========================
 // INITIAL STATE
 // =========================
@@ -147,7 +161,11 @@ const initialState = {
         fetchUniqueValues: false,
         createType: false,
         createStock: false,  // Add this
+        fetchFilteredUniqueValues: false,
     },
+
+    allUniqueValues: null,      // Store all unique values (initial load)
+    filteredUniqueValues: null,  // Store filtered unique values (based on current filters)
 
     uniqueValues: {
         areas: [],
@@ -194,7 +212,10 @@ const stockSlice = createSlice({
         clearTypeData: (state) => {
             state.typeData = [];
             state.typePagination = initialState.typePagination;
-        }
+        },
+        clearFilteredUniqueValues: (state) => {
+            state.filteredUniqueValues = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -273,9 +294,14 @@ const stockSlice = createSlice({
             .addCase(fetchUniqueValues.pending, (state) => {
                 state.loading.fetchUniqueValues = true;
             })
+            // .addCase(fetchUniqueValues.fulfilled, (state, action) => {
+            //     state.loading.fetchUniqueValues = false;
+            //     state.uniqueValues = action.payload;
+            // })
             .addCase(fetchUniqueValues.fulfilled, (state, action) => {
                 state.loading.fetchUniqueValues = false;
-                state.uniqueValues = action.payload;
+                console.log('Unique values received:', action.payload); // Add this log
+                state.allUniqueValues = action.payload; // Make sure it's action.payload, not action.payload.data
             })
             .addCase(fetchUniqueValues.rejected, (state, action) => {
                 state.loading.fetchUniqueValues = false;
@@ -322,11 +348,23 @@ const stockSlice = createSlice({
             .addCase(fetchTypesWithoutStock.rejected, (state, action) => {
                 state.loading.fetchTypesWithoutStock = false;
                 state.errors.fetchTypesWithoutStock = action.payload;
+            })
+            // Add to extraReducers
+            .addCase(fetchFilteredUniqueValues.pending, (state) => {
+                state.loading.fetchFilteredUniqueValues = true;
+            })
+            .addCase(fetchFilteredUniqueValues.fulfilled, (state, action) => {
+                state.loading.fetchFilteredUniqueValues = false;
+                state.filteredUniqueValues = action.payload;
+            })
+            .addCase(fetchFilteredUniqueValues.rejected, (state, action) => {
+                state.loading.fetchFilteredUniqueValues = false;
+                state.errors.fetchFilteredUniqueValues = action.payload;
             });
     }
 });
 
-export const { clearMessage, clearErrors, clearStockData, clearTypeData } = stockSlice.actions;
+export const { clearMessage, clearErrors, clearStockData, clearTypeData, clearFilteredUniqueValues } = stockSlice.actions;
 
 // Selectors
 export const selectStockData = (state) => state.stock.stockData;
@@ -336,6 +374,8 @@ export const selectTypePagination = (state) => state.stock.typePagination;
 export const selectUniqueValues = (state) => state.stock.uniqueValues;
 export const selectStockLoading = (state) => state.stock.loading;
 export const selectTypesWithoutStock = (state) => state.stock.typesWithoutStock;
+export const selectAllUniqueValues = (state) => state.stock.allUniqueValues;
+export const selectFilteredUniqueValues = (state) => state.stock.filteredUniqueValues;
 export const selectStockMessage = (state) => ({ 
     message: state.stock.message, 
     cond: state.stock.messageCond 

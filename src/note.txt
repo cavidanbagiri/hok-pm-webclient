@@ -3,3 +3,4 @@ Problems:
 2) Need to fix the ExcelFilter for growing as user wants.
 3) Need to fix edit data in Stock and type
 4) Get all unique values from backend and show in filter
+5) After clicking the clear, the serach box doesnt remove

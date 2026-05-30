@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Filter, FilterX, ChevronDown, Search, X, Check } from 'lucide-react';
 
-const ExcelFilter = ({ column, value, options, onFilterChange, onClear, columnLabel }) => {
+const ExcelFilter = ({ column, value, options, onFilterChange, onClear, columnLabel, loading = false }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedValues, setSelectedValues] = useState([]);
@@ -25,14 +25,24 @@ const ExcelFilter = ({ column, value, options, onFilterChange, onClear, columnLa
         }
     }, [value]);
 
-    const filteredOptions = options.filter(opt =>
-        String(opt).toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredOptions = React.useMemo(() => {
+        if (!searchTerm) return options;
+
+        return options.filter(opt => {
+            // Handle both string and object options
+            const optValue = typeof opt === 'object' ? opt.name || opt.label : opt;
+            return String(optValue).toLowerCase().includes(searchTerm.toLowerCase());
+        });
+    }, [options, searchTerm]);
+
 
     const handleToggleValue = (opt) => {
-        const newValues = selectedValues.includes(opt)
-            ? selectedValues.filter(v => v !== opt)
-            : [...selectedValues, opt];
+        const valueToStore = typeof opt === 'object' ? opt.name : opt;
+
+        const newValues = selectedValues.includes(valueToStore)
+            ? selectedValues.filter(v => v !== valueToStore)
+            : [...selectedValues, valueToStore];
+
         setSelectedValues(newValues);
         onFilterChange(newValues.join(','));
     };
@@ -47,27 +57,38 @@ const ExcelFilter = ({ column, value, options, onFilterChange, onClear, columnLa
         }
     };
 
+    // Add this useEffect right after the useState declarations
+    useEffect(() => {
+        // Sync local selected values when prop value changes (e.g., when cleared externally)
+        if (value && value !== '') {
+            setSelectedValues(value.split(',').filter(v => v));
+        } else {
+            setSelectedValues([]);
+        }
+    }, [value]);
+
     const hasFilter = value && value !== '';
 
     return (
         <div ref={filterRef} className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`w-full px-2 py-1.5 text-xs border rounded-md flex items-center justify-between transition-colors ${
-                    hasFilter 
-                        ? 'bg-blue-50 border-blue-500 text-blue-700' 
-                        : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                className={`w-full px-2 py-1.5 text-xs border rounded-md flex items-center justify-between transition-colors ${hasFilter
+                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                    } ${loading ? 'opacity-50 cursor-wait' : ''}`}
                 title={`Filter by ${columnLabel}`}
             >
                 <div className="flex items-center gap-1 truncate">
-                    {hasFilter ? (
+                    {loading ? (
+                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-blue-500"></div>
+                    ) : hasFilter ? (
                         <Filter className="w-3 h-3 flex-shrink-0" />
                     ) : (
                         <Filter className="w-3 h-3 opacity-50 flex-shrink-0" />
                     )}
                     <span className="truncate">
-                        {hasFilter ? `${selectedValues.length} selected` : columnLabel}
+                        {loading ? 'Loading...' : (hasFilter ? `${selectedValues.length} selected` : columnLabel)}
                     </span>
                 </div>
                 <ChevronDown className="w-3 h-3 flex-shrink-0" />
@@ -84,7 +105,10 @@ const ExcelFilter = ({ column, value, options, onFilterChange, onClear, columnLa
                             {hasFilter && (
                                 <button
                                     onClick={() => {
-                                        onClear();
+                                        onClear();  // This calls clearFilter in parent
+                                        setSelectedValues([]);  // Clear local state immediately
+                                        setSearchTerm('');  // Add this line
+                                        onFilterChange('');     // Clear the filter value
                                         setIsOpen(false);
                                     }}
                                     className="text-xs text-red-600 hover:text-red-700 flex items-center gap-1"
@@ -112,42 +136,31 @@ const ExcelFilter = ({ column, value, options, onFilterChange, onClear, columnLa
                                 onClick={handleSelectAll}
                                 className="w-full px-2 py-1 text-left text-xs text-gray-600 hover:bg-gray-100 rounded flex items-center gap-2"
                             >
-                                <div className={`w-3 h-3 border rounded flex items-center justify-center ${
-                                    selectedValues.length === options.length ? 'bg-blue-500 border-blue-500' : 'border-gray-400'
-                                }`}>
+                                <div className={`w-3 h-3 border rounded flex items-center justify-center ${selectedValues.length === options.length ? 'bg-blue-500 border-blue-500' : 'border-gray-400'
+                                    }`}>
                                     {selectedValues.length === options.length && <Check className="w-2 h-2 text-white" />}
                                 </div>
                                 Select All ({options.length})
                             </button>
                         </div>
-                        {/* {filteredOptions.map((opt) => (
-                            <button
-                                key={opt}
-                                onClick={() => handleToggleValue(opt)}
-                                className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 rounded flex items-center gap-2"
-                            >
-                                <div className={`w-3 h-3 border rounded flex items-center justify-center ${
-                                    selectedValues.includes(opt) ? 'bg-blue-500 border-blue-500' : 'border-gray-400'
-                                }`}>
-                                    {selectedValues.includes(opt) && <Check className="w-2 h-2 text-white" />}
-                                </div>
-                                <span className="truncate">{opt}</span>
-                            </button>
-                        ))} */}
-                        {filteredOptions.map((opt) => (
-                            <button
-                                key={opt}
-                                onClick={() => handleToggleValue(opt)}
-                                className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 rounded flex items-center gap-2"
-                            >
-                                <div className={`w-3 h-3 border rounded flex items-center justify-center ${
-                                    selectedValues.includes(opt) ? 'bg-blue-500 border-blue-500' : 'border-gray-400'
-                                }`}>
-                                    {selectedValues.includes(opt) && <Check className="w-2 h-2 text-white" />}
-                                </div>
-                                <span className="truncate">{opt}</span>
-                            </button>
-                        ))}
+                        {filteredOptions.map((opt, idx) => {
+                            const optionValue = typeof opt === 'object' ? opt.name : opt;
+                            const isSelected = selectedValues.includes(optionValue);
+
+                            return (
+                                <button
+                                    key={opt.id || optionValue || idx}
+                                    onClick={() => handleToggleValue(opt)}
+                                    className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 rounded flex items-center gap-2"
+                                >
+                                    <div className={`w-3 h-3 border rounded flex items-center justify-center ${isSelected ? 'bg-blue-500 border-blue-500' : 'border-gray-400'
+                                        }`}>
+                                        {isSelected && <Check className="w-2 h-2 text-white" />}
+                                    </div>
+                                    <span className="truncate">{optionValue}</span>
+                                </button>
+                            );
+                        })}
                         {filteredOptions.length === 0 && (
                             <div className="px-2 py-2 text-xs text-gray-500 text-center">
                                 No matching values

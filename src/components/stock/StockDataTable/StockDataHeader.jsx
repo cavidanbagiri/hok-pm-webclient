@@ -118,6 +118,7 @@ const StockDataHeader = ({
                             <span className="text-xs text-red-600">Clear Filters</span>
                         </button>
                     )}
+                    
                 </div>
             </div>
         </div>

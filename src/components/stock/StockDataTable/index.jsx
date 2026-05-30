@@ -48,9 +48,7 @@ const StockDataTable = () => {
         setShowEditModal,
         setEditingItem,
         setShowColumnMenu,
-        handleFilterChange,
         clearFilter,
-        clearAllFilters,
         handlePageChange,
         handlePageSizeChange,
         handleEdit,
@@ -59,6 +57,11 @@ const StockDataTable = () => {
         refreshData,
         getUniqueValues,
         getNestedValue,
+        activeFilters,
+    isFiltering,
+    getCurrentUniqueValues,
+    handleFilterChange, // Use this instead of the old one
+    clearAllFilters,
     } = useStockData();
 
     const { message, cond } = useSelector(selectStockMessage);
@@ -157,7 +160,6 @@ const StockDataTable = () => {
                 pageSize={pageSize}
                 onPageSizeChange={handlePageSizeChange}
                 onToggleColumnMenu={() => setShowColumnMenu(!showColumnMenu)}
-                onClearAllFilters={clearAllFilters}
                 hasFilters={hasFilters}
                 showColumnMenu={showColumnMenu}
                 currentColumns={currentColumns}
@@ -166,6 +168,7 @@ const StockDataTable = () => {
                 onCreateType={() => setShowCreateTypeModal(true)} 
                 // onCreateStock={() => setShowCreateStockModal(true)}
                 onCreateStock={handleOpenCreateStockModal}  // Changed this line
+                onClearAllFilters={clearAllFilters}
             />
             
             <StockDataTabs activeTab={activeTab} onTabChange={setActiveTab} />
@@ -194,7 +197,7 @@ const StockDataTable = () => {
                         </tr>
                     </thead>
                     
-                    <StockDataFilters
+                    {/* <StockDataFilters
                         columns={currentColumns}
                         visibleColumns={currentVisibleColumns}
                         filters={filters}
@@ -202,6 +205,17 @@ const StockDataTable = () => {
                         onClearFilter={clearFilter}
                         onClearAllFilters={clearAllFilters}
                         getUniqueValues={getUniqueValues}
+                    /> */}
+                    {/* // Update StockDataFilters component */}
+                    <StockDataFilters
+                        columns={currentColumns}
+                        visibleColumns={currentVisibleColumns}
+                        filters={filters}
+                        onFilterChange={handleFilterChange}
+                        onClearFilter={clearFilter}
+                        // onClearAllFilters={clearAllFilters}
+                        getCurrentUniqueValues={getCurrentUniqueValues}
+                        isFiltering={isFiltering}
                     />
                     
                     <StockDataBody
