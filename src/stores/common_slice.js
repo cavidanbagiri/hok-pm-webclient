@@ -385,6 +385,20 @@ export const createStock = createAsyncThunk(
     }
 );
 
+// Add this thunk
+// export const fetchTypesWithoutStock = createAsyncThunk(
+//     'common/fetchTypesWithoutStock',
+//     async (_, { rejectWithValue }) => {
+//         try {
+//             const response = await StockService.fetchTypesWithoutStock();
+//             console.log('types withut stock codes is ', response.data)
+//             return response.data;
+//         } catch (error) {
+//             return rejectWithValue(error.response?.data || error.message);
+//         }
+//     }
+// );
+
 // Initial state
 const initialState = {
     // Data states
@@ -399,6 +413,7 @@ const initialState = {
     itemTypes: [],
     types: [],
     stockData: [],
+    typesWithoutStock: [],
 
     // Loading states
     loading: {
@@ -433,6 +448,7 @@ const initialState = {
         updateDescription: false,
         updateSubtype: false,
         updateItemTypes: false,
+        fetchTypesWithoutStock: false,
         },
 
     // Error states
@@ -1001,8 +1017,10 @@ const commonSlice = createSlice({
                 state.errors.createStock = action.payload;
                 state.message = `Failed to create stock: ${action.payload}`;
                 state.messageCond = 'error';
-            });
-    }
+            })
+           
+                
+        }
 });
 
 // Export actions

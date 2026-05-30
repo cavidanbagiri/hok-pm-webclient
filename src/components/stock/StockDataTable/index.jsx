@@ -15,7 +15,7 @@ import CreateStockModal from './CreateStockModal';
 import MessageBox from '../../../layouts/MessageBox';
 import { useStockData } from './useStockData';
 import { useSelector } from 'react-redux';
-import { selectStockMessage, clearMessage, createType, fetchType, createStock, fetchStockData } from '../../../stores/stock_slice';
+import { selectStockMessage, clearMessage, createType, fetchType, createStock, fetchStockData, fetchUniqueValues } from '../../../stores/stock_slice';
 
 const StockDataTable = () => {
     const dispatch = useDispatch();
@@ -40,6 +40,9 @@ const StockDataTable = () => {
         currentVisibleColumns,
         loading,
         uniqueValues,
+        typeData,
+        typesWithoutStock,
+        fetchTypesWithoutStock,
         setActiveTab,
         setContextMenu,
         setShowEditModal,
@@ -61,6 +64,8 @@ const StockDataTable = () => {
     const { message, cond } = useSelector(selectStockMessage);
     const [showMessage, setShowMessage] = React.useState(false);
     const [localMessage, setLocalMessage] = React.useState({ msg: '', cond: '' });
+
+    const typeOptions = typeData;
 
     React.useEffect(() => {
         if (message) {
@@ -100,26 +105,32 @@ const StockDataTable = () => {
     };
 
     // Add handler
-const handleCreateStock = async (formData) => {
-    setCreatingStock(true);
-    try {
-        await dispatch(createStock(formData)).unwrap();
-        
-        // Refresh stock data
-        const params = { page: currentPage, limit: pageSize, ...filters };
-        await dispatch(fetchStockData(params));
-        
-        // Refresh unique values to include new stock code
-        await dispatch(fetchUniqueValues(null));
-        
-        // Close modal
-        setShowCreateStockModal(false);
-    } catch (error) {
-        console.error('Create stock failed:', error);
-    } finally {
-        setCreatingStock(false);
-    }
-};
+    const handleCreateStock = async (formData) => {
+        setCreatingStock(true);
+        try {
+            await dispatch(createStock(formData)).unwrap();
+            
+            // Refresh stock data
+            const params = { page: currentPage, limit: pageSize, ...filters };
+            await dispatch(fetchStockData(params));
+            
+            // Refresh unique values to include new stock code
+            await dispatch(fetchUniqueValues(null));
+            
+            // Close modal
+            setShowCreateStockModal(false);
+        } catch (error) {
+            console.error('Create stock failed:', error);
+        } finally {
+            setCreatingStock(false);
+        }
+    };
+
+    const handleOpenCreateStockModal = () => {
+        console.log("here is callaed")
+        dispatch(fetchTypesWithoutStock());
+        setShowCreateStockModal(true);
+    };
 
     return (
         <div className="w-full bg-white rounded-2xl shadow-xl overflow-hidden relative">
@@ -153,7 +164,8 @@ const handleCreateStock = async (formData) => {
                 currentVisibleColumns={currentVisibleColumns}
                 toggleColumn={toggleColumn}
                 onCreateType={() => setShowCreateTypeModal(true)} 
-                onCreateStock={() => setShowCreateStockModal(true)}
+                // onCreateStock={() => setShowCreateStockModal(true)}
+                onCreateStock={handleOpenCreateStockModal}  // Changed this line
             />
             
             <StockDataTabs activeTab={activeTab} onTabChange={setActiveTab} />
@@ -238,6 +250,8 @@ const handleCreateStock = async (formData) => {
                     item={editingItem}
                     activeTab={activeTab}
                     onSubmit={handleUpdateSubmit}
+                    uniqueValues={uniqueValues} 
+                    typeOptions={typeOptions}
                 />
             )}
             
@@ -255,6 +269,7 @@ const handleCreateStock = async (formData) => {
                 onClose={() => setShowCreateStockModal(false)}
                 onSubmit={handleCreateStock}
                 uniqueValues={uniqueValues}
+                typesWithoutStock={typesWithoutStock}
                 loading={creatingStock}
             />
             

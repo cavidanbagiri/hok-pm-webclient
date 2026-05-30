@@ -12,6 +12,8 @@ import {
     selectStockLoading,
     fetchUniqueValues,
     selectUniqueValues,
+    fetchTypesWithoutStock,
+    selectTypesWithoutStock,
     clearMessage
 } from '../../../stores/stock_slice';
 
@@ -39,6 +41,7 @@ export const useStockData = () => {
     const typeData = useSelector(selectTypeData);
     const typePagination = useSelector(selectTypePagination);
     const loading = useSelector(selectStockLoading);
+    const typesWithoutStock = useSelector(selectTypesWithoutStock);
 
     // Column definitions with display labels
     // Stock columns - these keys are used in getNestedValue above
@@ -339,6 +342,9 @@ export const useStockData = () => {
         currentVisibleColumns: getCurrentVisibleColumns(),
         loading,
         uniqueValues,
+        typeData,
+        typesWithoutStock,
+        fetchTypesWithoutStock,
 
         // Actions
         setActiveTab,

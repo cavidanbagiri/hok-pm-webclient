@@ -102,6 +102,20 @@ export const createStock = createAsyncThunk(
     }
 );
 
+// Add this thunk
+export const fetchTypesWithoutStock = createAsyncThunk(
+    'stock/fetchTypesWithoutStock',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await StockService.fetchTypesWithoutStock();
+            console.log(' this function o scallaed')
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // =========================
 // INITIAL STATE
 // =========================
@@ -296,6 +310,18 @@ const stockSlice = createSlice({
                 state.errors.createStock = action.payload;
                 state.message = `Failed to create stock: ${action.payload?.detail || action.payload}`;
                 state.messageCond = 'error';
+            })
+             .addCase(fetchTypesWithoutStock.pending, (state) => {
+                state.loading.fetchTypesWithoutStock = true;
+            })
+            .addCase(fetchTypesWithoutStock.fulfilled, (state, action) => {
+                state.loading.fetchTypesWithoutStock = false;
+                console.log('the action is',action.payload)
+                state.typesWithoutStock = action.payload;
+            })
+            .addCase(fetchTypesWithoutStock.rejected, (state, action) => {
+                state.loading.fetchTypesWithoutStock = false;
+                state.errors.fetchTypesWithoutStock = action.payload;
             });
     }
 });
@@ -309,6 +335,7 @@ export const selectTypeData = (state) => state.stock.typeData;
 export const selectTypePagination = (state) => state.stock.typePagination;
 export const selectUniqueValues = (state) => state.stock.uniqueValues;
 export const selectStockLoading = (state) => state.stock.loading;
+export const selectTypesWithoutStock = (state) => state.stock.typesWithoutStock;
 export const selectStockMessage = (state) => ({ 
     message: state.stock.message, 
     cond: state.stock.messageCond 

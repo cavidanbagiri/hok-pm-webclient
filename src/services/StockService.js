@@ -36,7 +36,7 @@ class StockService {
     }
 
     async updateStock(id, data) {
-        return this.put(`/common/update_stock/${id}`, data);
+        return this.put(`/common/update_stock_data/${id}`, data);
     }
 
     // =========================
@@ -71,6 +71,14 @@ class StockService {
         const params = tables ? { tables: tables.join(',') } : {};
         const response = await this.get('/common/fetch_unique_values', params);
         return response.data;
+    }
+
+    // =========================
+    // FETCH TYPES WITHOUT STOCK CODE
+    // =========================
+    async fetchTypesWithoutStock() {
+        console.log('service called')
+        return this.get('/common/fetch_types_without_stock');
     }
 
     
